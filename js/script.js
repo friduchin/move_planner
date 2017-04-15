@@ -19,6 +19,18 @@ function loadData() {
     var cityStr = $('#city').val();
     $body.append('<img class="bgimg" src="' + imgBasicUrl + streetStr + ', ' + cityStr + '">');
 
+    var nytimesUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+    nytimesUrl += '?api-key=0efe24ce58e24f19bdf03ef804d6d98a';
+    nytimesUrl += '&q=' + cityStr;
+    $.getJSON(nytimesUrl, function(data){
+        data.response.docs.forEach(function(article){
+            $nytElem.append(
+                '<li class="article"><a href="' + article.web_url + '">' + article.headline.main
+                + '</a><p>' + article.snippet + '</p></li>'
+                );
+        });
+    });
+
     return false;
 };
 
